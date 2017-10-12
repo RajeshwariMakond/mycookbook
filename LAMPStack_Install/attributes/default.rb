@@ -1,0 +1,9 @@
+#default[:chef-client][:version] = "13.2.20"
+#default[:chefdk][:version] = "2.1.11"
+#default[:delivery][:version] = "master (73ebb72a6c42b3d2ff5370c476be800fee7e5427)"
+#default[:berks][:version] = "6.3.0"
+#default[:kitchen][:version] = "1.17.0"
+#default[:apache][:version] = "Apache/2.4.7"
+#default[:mysql][:version] = "14.14 Distrib 5.5.57"
+#default[:php][:version] = "PHP 5.5.9"
+#default[:lampstack][:port] = 80
