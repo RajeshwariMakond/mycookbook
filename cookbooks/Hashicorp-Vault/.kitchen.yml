@@ -1,0 +1,42 @@
+---
+driver:
+  name: ec2
+  region: us-east-1
+  instance_type: t2.medium
+  subnet_id: subnet-476ae66a
+  security_group_ids: ["sg-056a2f78"]
+  aws_ssh_key_id: REAN-vault
+  user_data: ./.user_data.sh
+  tags:
+    Name: kitchen-ec2
+    Owner: noel.georgi
+
+transport:
+  name: rsync
+  ssh_key: ./REAN-vault
+
+verifier:
+  name: inspec
+
+platforms:
+
+  # Ubuntu trusty 
+  - name: ubuntu-14.04
+  # Ubuntu xenial
+  - name: ubuntu-16.04
+  # # CentOS 6
+  - name: centos-6
+  # CentOS 7
+  # - name: centos-7
+  # RHEL 6
+  - name: rhel-6
+  # RHEL 7
+  # - name: rhel-7
+
+suites:
+  - name: default
+    run_list:
+      - recipe[REAN-vault::default]
+    verifier:
+      inspec_tests:
+        - test/smoke

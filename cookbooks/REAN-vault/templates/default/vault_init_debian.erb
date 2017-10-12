@@ -1,0 +1,89 @@
+#
+#       Daemon for vault
+#
+# chkconfig:   345 99 20
+# description: Daemon for vault
+# processname: vault
+
+### BEGIN INIT INFO
+# Provides:       vault
+# Required-Start: $network
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start: 2 3 4 5
+# Default-Stop: S 0 1 6
+# Short-Description: start and stop vault
+# Description: Daemon for vault
+### END INIT INFO
+
+NAME=vault
+DAEMON=/opt/vault/$NAME
+CONF_DIR=/etc/vault
+CONF_FILE=default.hcl
+DAEMON_ARGS="server -config $CONF_DIR/$CONF_FILE"
+USER=vault
+UNSEAL_CMD=unseal
+SEAL_CMD=seal
+
+if [ $(id -u) != "0" ]; then
+    echo "Are you root?"
+    exit 1
+fi
+
+start() {
+    if [ ! -z $(ps -C vault | awk 'END {print $1}' | grep -v PID) ]; then
+         echo "Vault is already running"
+    else
+         start-stop-daemon --start --quiet --exec $DAEMON --chuid $USER -- $DAEMON_ARGS >> /var/log/vault.log 2>&1 &
+    fi
+    return $?
+}
+
+stop() {
+    # Get the process number and kill the process
+    echo "stopping vault"
+    start-stop-daemon --stop --quiet --exec $DAEMON --name $NAME > /dev/null 2>&1
+    return $?
+}
+
+status() {
+    if [ -z $(ps -C vault | awk 'END {print $1}' | grep -v PID) ]; then
+        echo "Vault is not running."
+        return 3
+    else
+        echo "Vault is running"
+    fi
+    return 0
+}
+
+restart () {
+     # Get the process number and kill the process
+    start-stop-daemon --stop --quiet --exec $DAEMON --name $NAME > /dev/null 2>&1
+    sleep 2
+    start-stop-daemon --start --quiet --exec $DAEMON --chuid $USER -- $DAEMON_ARGS >> /var/log/vault.log 2>&1 &
+    return $?
+}
+
+case "$1" in
+    start)
+        start
+        RETVAL=$?
+        ;;
+    stop)
+        stop
+        RETVAL=$?
+        ;;
+    status)
+        status
+        RETVAL=$?
+        ;;
+    restart)
+        restart
+        RETVAL=$?
+        ;;
+    *)
+        echo $"Usage: vault {start|stop|status|restart}"
+        RETVAL=2
+        ;;
+esac

@@ -1,0 +1,1 @@
+"agent", "-datacenter=sa-ia-config-dc", "-data-dir=/consul/data", "-log-level=info", "-client=0.0.0.0", "-server=true", "-bootstrap=true", "-ui", "-node=consul-server-node"

@@ -1,0 +1,15 @@
+# default values
+default['REAN-vault']['agent'] = 'server'
+default['REAN-vault']['vault_user'] = 'vault'
+default['REAN-vault']['vault_group'] = 'vault'
+default['REAN-vault']['vault_home'] = '/opt/vault'
+default['REAN-vault']['vault_shell'] = '/bin/bash'
+default['REAN-vault']['vault_config_dir'] = '/etc/vault'
+default['REAN-vault']['vault_version'] = '0.6.3'
+default['REAN-vault']['vault_url'] = "https://releases.hashicorp.com/vault/#{node['REAN-vault']['vault_version']}/vault_#{node['REAN-vault']['vault_version']}_linux_amd64.zip"
+default['REAN-vault']['vault_backend'] = 'file'
+default['REAN-vault']['mysql_root_pass'] = ''
+default['REAN-vault']['mysql_db'] = 'vault'
+default['REAN-vault']['mysql_db_user'] = ''
+default['REAN-vault']['mysql_db_pass'] = ''
+default['REAN-vault']['consul_version'] = '0.7.1'
